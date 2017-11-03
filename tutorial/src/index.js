@@ -33,30 +33,29 @@ function Square(props) {
 class Board extends React.Component {
 
   renderSquare(i) {
-    return <Square 
+    return (
+      <Square
         value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
-      />;
+        onClick={() => this.props.onClick(i)} />
+    );
+  }
+
+  renderRow(size) {
+    const rows = [];
+    for (let i = 0; i < size; i++) {
+      const squares = [];
+      for (let j = i * size; j < i * size + size; j++) {
+        squares.push(this.renderSquare(j));
+      }
+      rows.push(<div className="board-row">{squares}</div>)
+    }
+    return rows;
   }
 
   render() {
     return (
       <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {this.renderRow(3)}
       </div>
     );
   }
@@ -108,7 +107,7 @@ class Game extends React.Component {
       status = 'Winner: ' + winner;
     }
     else {
-      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O'); 
+      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
 
     /* move => i */
@@ -120,14 +119,13 @@ class Game extends React.Component {
         </li>
       );
     });
-    
+
     return (
       <div className="game">
         <div className="game-board">
-          <Board 
+          <Board
             squares={current.squares}
-            onClick={(i) => this.handleClick(i)}
-          />
+            onClick={(i) => this.handleClick(i)} />
         </div>
         <div className="game-info">
           <div>{status}</div>
